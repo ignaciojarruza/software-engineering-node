@@ -2,12 +2,12 @@ import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
 export default class User {
-   private id: string;
-   private username: string = '';
-   private password: string = '';
-   private firstName: string | null = null;
-   private lastName: string | null = null;
-   private email: string = '';
+   public id: string;
+   public username: string = '';
+   public password: string = '';
+   public firstName: string | null = null;
+   public lastName: string | null = null;
+   public email: string = '';
    private profilePhoto: string | null = null;
    private headerImage: string | null = null;
    private accountType: AccountType = AccountType.Personal;
