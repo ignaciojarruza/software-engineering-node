@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+/**
+ * Tuit Mongoose Schema.
+ */
 const TuitSchema = new mongoose.Schema({
   tuit: {type: String, required: true},
   postedBy: {

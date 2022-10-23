@@ -1,3 +1,6 @@
+/**
+ * Enumeration for Marital Status.
+ */
 enum MaritalStatus {
     Married = 'MARRIED',
     Single = 'SINGLE',

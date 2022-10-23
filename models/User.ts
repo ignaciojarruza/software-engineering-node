@@ -1,6 +1,10 @@
 import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
+
+/**
+ * User class. A user has a username, password and other fields.
+ */
 export default class User {
    public id: string;
    public username: string = '';
@@ -19,6 +23,16 @@ export default class User {
    constructor(id: string, username: string, password: string) {
       this.id = id; this.username = username; this.password = password;
    }
+
+   /**
+    * Getter for username of user.
+    * @return username
+    */
    get uName() { return this.username; }
+
+   /**
+    * Getter for the password of user.
+    * @return password
+    */
    get pass() { return this.password; }
 }

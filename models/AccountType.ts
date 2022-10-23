@@ -1,3 +1,6 @@
+/**
+ * Enumeration for Account Type.
+ */
 enum AccountType {
     Personal = 'PERSONAL',
     Academic = 'ACADEMIC',

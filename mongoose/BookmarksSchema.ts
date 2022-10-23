@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+/**
+ * Bookmarks Mongoose Schema.
+ */
 const BookmarksSchema = new mongoose.Schema({
     bookmarkedTuit: {type: mongoose.Schema.Types.ObjectId, ref: 'TuitModel'},
     bookmarkedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'}

@@ -1,9 +1,19 @@
 import {Express, Request, Response} from "express";
 import TuitDaoI from "../interfaces/TuitDao";
 
+/**
+ * Controller for Tuit functionality.
+ */
 export default class TuitController {
     private static tuitController: TuitController | null = null;
     private static tuitDao: TuitDaoI;
+
+    /**
+     * Instantiates the controller for Tuit when called. Maintains the Singleton Pattern.
+     * @param app the Experss app that is running
+     * @param bookrmarksDao the tuit DAO
+     * @return tuitController
+     */
     public static getInstance = (app: Express, tuitDao: TuitDaoI): TuitController => {
         if (TuitController.tuitController === null) {
             TuitController.tuitController = new TuitController();
@@ -17,30 +27,62 @@ export default class TuitController {
 
         return TuitController.tuitController;
     }
+
+    /**
+     * Private constructor for Singleton Implementation.
+     */
     private constructor() {}
+
+    /**
+     * Supports a user finding a list of all tuits. Sends appropriate parameters to the tuit DAO from the request received.
+     * This method is asyncrhonous.
+     */
     private findAllTuits = (req: Request, res: Response) =>
         TuitController.tuitDao
             .findAllTuits()
             .then(tuits => res.json(tuits));
+    
+     /**
+     * Supports a user finding a specific tuit. Sends appropriate parameters to the tuit DAO from the request received.
+     * This method is asyncrhonous.
+     */
     private findTuitById = (req: Request, res: Response) =>
         TuitController.tuitDao
             .findTuitById(req.params.tid)
             .then(tuit => res.json(tuit));
+    
+     /**
+     * Supports a user finding a list of all tuits by a specific user. Sends appropriate parameters to the tuit DAO from the request received.
+     * This method is asyncrhonous.
+     */
     private findTuitsByAuthor =
         (req: Request, res: Response) =>
             TuitController.tuitDao
                 .findTuitsByAuthor(req.params.uid)
                 .then(tuits => res.json(tuits));
+
+     /**
+     * Supports a user creating a tuit. Sends appropriate parameters to the tuit DAO from the request received.
+     * This method is asyncrhonous.
+     */
     private createTuit = (req: Request, res: Response) =>
         TuitController.tuitDao
             .createTuit(req.body)
             .then(actualTuit => res.json(actualTuit));
 
+     /**
+     * Supports a user deleting a tuit. Sends appropriate parameters to the tuit DAO from the request received.
+     * This method is asyncrhonous.
+     */
     private deleteTuit = (req: Request, res: Response) =>
         TuitController.tuitDao
             .deleteTuit(req.params.tid)
             .then(status => res.json(status));
 
+     /**
+     * Supports a user updating a previously created tuit. Sends appropriate parameters to the tuit DAO from the request received.
+     * This method is asyncrhonous.
+     */            
     private updateTuit = (req: Request, res: Response) =>
         TuitController.tuitDao
             .updateTuit(req.params.tid, req.body)
