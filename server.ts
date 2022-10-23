@@ -7,6 +7,7 @@ import UserController from "./controllers/UserController";
 import mongoose from "mongoose";
 import TuitDao from "./daos/TuitDao";
 import TuitController from "./controllers/TuitController";
+import followsController from './controllers/FollowsController';
 
 
 const cors = require('cors')
@@ -24,6 +25,9 @@ const options = {
     family: 4
  }
 mongoose.connect('mongodb://127.0.0.1:27017/fsd', options);
+
+//clean up later
+followsController(app);
 
 const userDao = new UserDao();
 const userController = new UserController(app, userDao);
