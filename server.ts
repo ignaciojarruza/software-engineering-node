@@ -7,7 +7,8 @@ import UserController from "./controllers/UserController";
 import mongoose from "mongoose";
 import TuitDao from "./daos/TuitDao";
 import TuitController from "./controllers/TuitController";
-import followsController from './controllers/FollowsController';
+import FollowsController from './controllers/FollowsController';
+import FollowsDao from './daos/FollowsDao';
 
 
 const cors = require('cors')
@@ -24,16 +25,15 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4
  }
-mongoose.connect('mongodb://127.0.0.1:27017/fsd', options);
-
-//clean up later
-followsController(app);
+mongoose.connect('mongodb://localhost:27017/fsd', options);
 
 const userDao = new UserDao();
 const userController = new UserController(app, userDao);
 const tuitDao = TuitDao.getInstance();
 const tuitController = TuitController
   .getInstance(app, tuitDao);
+const followsDao = new FollowsDao();
+const followsController = FollowsController.getInstance(app, followsDao);
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!!!!'));
