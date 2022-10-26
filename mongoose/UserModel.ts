@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 import UserSchema from "./UserSchema";
 
 /**
- * User Mongoose Model.
+ * @file Implements mongoose model to CRUD
+ * documents in the user collection
  */
 const UserModel = mongoose.model('UserModel', UserSchema);
 export default UserModel;

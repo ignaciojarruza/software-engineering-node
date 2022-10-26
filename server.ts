@@ -11,6 +11,9 @@ import FollowsController from './controllers/FollowsController';
 import FollowsDao from './daos/FollowsDao';
 import BookmarksController from './controllers/BookmarksController';
 import BookmarksDao from './daos/BookmarksDao';
+import LikeController from './controllers/LikeController';
+import MessageController from './controllers/MessageController';
+import MessageDao from './daos/MessageDao';
 
 
 const cors = require('cors')
@@ -38,6 +41,9 @@ const followsDao = new FollowsDao();
 const followsController = FollowsController.getInstance(app, followsDao);
 const bookmarksDao = new BookmarksDao();
 const bookmarksController = BookmarksController.getInstance(app, bookmarksDao);
+const likeController = LikeController.getInstance(app);
+const messageDao = new MessageDao();
+const messageController = MessageController.getInstance(app, messageDao);
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!!!!'));

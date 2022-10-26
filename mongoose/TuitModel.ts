@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 import tuitSchema from "./TuitSchema";
 
 /**
- * Tuit Mongoose Model.
+ * @file Implements mongoose model to CRUD
+ * documents in the tuit collection
  */
 const TuitModel = mongoose.model("TuitModel", tuitSchema);
 
