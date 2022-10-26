@@ -1,8 +1,20 @@
+/**
+ * @file Controller RESTful web service API for tuit resource
+ */
 import {Express, Request, Response} from "express";
 import TuitDaoI from "../interfaces/TuitDao";
 
 /**
- * Controller for Tuit functionality.
+ * @class TuitController implements RESTful web service API for tuit resource.
+ * Defines the following HTTP endpoints:
+ * <ul>
+ *  <li> GET /api/tuits to retrieve all tuits </li>
+ *  <li> GET /api/tuits/:tid to retrieve a tuit </li>
+ *  <li> GET /api/users/:uid/tuits to retrieve all tuits by a user </li>
+ *  <li> POST /api/users/:uid/tuits to record that a user posted a tuit </li>
+ *  <li> DELETE /api/tuits/:tid to record that a user deleted a tuit </li>
+ * </ul>
+ * @property {TuitController} TuitController Singleton controller implementing RESTful Web Service API
  */
 export default class TuitController {
     private static tuitController: TuitController | null = null;
@@ -10,8 +22,8 @@ export default class TuitController {
 
     /**
      * Instantiates the controller for Tuit when called. Maintains the Singleton Pattern.
-     * @param app the Experss app that is running
-     * @param bookrmarksDao the tuit DAO
+     * @param {Express} app the Experss app that is running
+     * @param tuitDao the tuit DAO
      * @return tuitController
      */
     public static getInstance = (app: Express, tuitDao: TuitDaoI): TuitController => {
@@ -28,9 +40,6 @@ export default class TuitController {
         return TuitController.tuitController;
     }
 
-    /**
-     * Private constructor for Singleton Implementation.
-     */
     private constructor() {}
 
     /**

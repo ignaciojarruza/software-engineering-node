@@ -1,9 +1,13 @@
+/**
+ * @file Tuit DAO for data handling.
+ */
 import TuitDaoI from "../interfaces/TuitDao";
 import Tuit from "../models/Tuit";
 import tuitModel from "../mongoose/TuitModel";
 
 /**
- * DAO for Tuit functionality.
+ * @class DAO for Tuit functionality.
+ * @property {TuitDao} tuitDao Maintains the singleton pattern
  */
 export default class TuitDao implements TuitDaoI {
     private static tuitDao: TuitDao | null = null;

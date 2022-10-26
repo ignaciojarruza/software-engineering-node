@@ -1,9 +1,12 @@
+/**
+ * @file User DAO for data handling
+ */
 import User from "../models/User";
 import UserModel from "../mongoose/UserModel";
 import UserDaoI from "../interfaces/UserDao";
 
 /**
- * DAO for User functionality.
+ * @class DAO for User functionality.
  */
 export default class UserDao implements UserDaoI {
 

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 /**
- * Tuit Mongoose Schema.
+ * @file Tuit Mongoose Schema.
  */
 const TuitSchema = new mongoose.Schema({
   tuit: {type: String, required: true},

@@ -1,16 +1,26 @@
+/**
+ * @file Controller RESTful Web service for bookmarks resource
+ */
 import {Express, Request, Response} from "express";
 import BookmarksDaoI from "../interfaces/BookmarksDao";
 
 /**
- * Controller for Bookmarks functionality.
+ * @class BookmarksController Implements RESTful Web service API for bookmarks resource.
+ * Defines the following HTTP endpoints:
+ * <ul>
+ *  <li> POST /api/users/:user/bookmarks/:tuit for a user to bookmark a tuit </li>
+ *  <li> GET /api/users/:user/bookmarks to retrieve bookmarked tuits </li>
+ *  <li> DELETE /api/users/:user/bookmarks/:tuit for a user to delete a bookmarked tuit </li>
+ * </ul>
+ * @property {BookmarkController} BookmarkController Singleton controller implementing
  */
 export default class BookmarksController {
     private static bookmarksController: BookmarksController | null = null;
     private static bookmarksDao: BookmarksDaoI;
 
     /**
-     * Instantiates the Bookmark controller when called. Maintains the Singleton Pattern.
-     * @param app the Experss app that is running
+     * Creates the Bookmark controller when called. Maintains the Singleton Pattern.
+     * @param {Express} app the Experss app that is running
      * @param bookmarksDao the bookmarks DAO
      * @return bookmarksController
      */
@@ -26,14 +36,14 @@ export default class BookmarksController {
         return BookmarksController.bookmarksController;
     }
 
-    /**
-     * Private constructor for Singleton implementation.
-     */
     private constructor() {}
 
     /**
-     * Supports a user bookmarking a tuit. Sends appropriate parameters to the bookmark DAO from the request received.
-     * This method is asynchronous.
+     * @param {Request} req Represents request from client, including the
+     * path parameters user representing the uid of the user that bookmarked the tuit
+     * and tuit representing the tid of the tuit
+     * @param {Response} res Represents response to client, including the body formatted
+     * as JSON arrays containing the new bookmarks that was added to the database
      */
     private userBookmarksTuit = async (req: Request, res: Response) => {
         const tuit = req.params.tuit;
@@ -45,8 +55,11 @@ export default class BookmarksController {
     }
 
     /**
-     * Supports a user unbookmarking a tuit. Sends appropriate parameters to the bookmark DAO from the request received.
-     * This method is asynchronous.
+     * @param {Request} req Represents request from client, including the path parameters
+     * user representing the uid of the user that unbookmarked the tuit
+     * and the tuit representing the tid of the tuit
+     * @param {Response} res Represents response to client, including status on whether deleting
+     * the bookmark was successful or not
      */
     private userUnBookmarksTuit = async (req: Request, res: Response) => {
         const tuit = req.params.tuit;
@@ -58,8 +71,11 @@ export default class BookmarksController {
     }
 
     /**
-     * Supports a user retrieving a list of bookmarked tuits. Sends appropriate parameters to the bookmark DAO from the request received.
-     * This method is asynchronous.
+     * Retrieves all tuits that a user bookmarked from the database
+     * @param {Request} req Represents the request from the client, including the path parameters user
+     * representing the uid of the user
+     * @param {Response} res Represents response to client, including the JSON arrays containing the
+     * bookmarked tuits
      */
     private bookmarkedTuits = async (req: Request, res: Response) => {
         const user = req.params.user;

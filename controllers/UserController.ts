@@ -1,8 +1,12 @@
+/**
+ * @file Controller RESTful Web service API for user resource
+ */
 import {Request, Response, Express} from "express";
 import UserDao from "../daos/UserDao";
 import UserControllerI from "../interfaces/UserController";
 
 /**
+ * @class UserController Implements RESTful Web service API for user resource.
  * Instantiates the User controller when called.
  * @param app the Experss app that is running
  * @param bookrmarksDao the user DAO

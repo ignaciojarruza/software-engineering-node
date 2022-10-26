@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 /**
- * User Mongoose Schema.
+ * @file User Mongoose Schema.
  */
 const UserSchema = new mongoose.Schema({
    username: {type: String, required: true},

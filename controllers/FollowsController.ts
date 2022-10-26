@@ -1,16 +1,27 @@
+/**
+ * @file Controlle RESTful Web service API for follows resource
+ */
 import {Express, Request, Response} from "express";
 import FollowsDaoI from "../interfaces/FollowsDao";
 
 /**
- * Follows Controller class that handles the controller functionality for follows.
+ * @class FollowsController implements RESTful Web service API for follows resource.
+ * Defines the following HTTP endpoints:
+ * <ul>
+ *  <li> POST /api/users/:follower/follows/:followed to record that a user followed another user </li>
+ *  <li> DELETE /api/users/:follower/follows/:followed to record that a user no longer follows another user </li>
+ *  <li> GET /api/users/:follower/follows to retrieve who a user is following </li>
+ *  <li> GET /api/follows/:followed/users to retrieve who is following a user </li>
+ * </ul>
+ * @property {FollowsController} FollowsController Singleton controller implementing RESTful Web service API
  */
 export default class FollowsController {
     private static followsController: FollowsController | null = null;
     private static followsDao: FollowsDaoI;
 
     /**
-     * Instantiates the controller instance (following Singleton Pattern).
-     * @param app The express app instance
+     * Creates the singleton controller instance (following Singleton Pattern).
+     * @param app The express app instance to declare the RESTful Web service
      * @param followsDao The follows DAO class that supports the follows functionality data access
      * @return followsController
      */
@@ -27,14 +38,13 @@ export default class FollowsController {
         return FollowsController.followsController;
     }
 
-    /**
-     * Private constructor for Singleton Pattern handling.
-     */
     private constructor() {}
 
     /**
-     * Supports a user following another user. Sends appropriate parameters to the follows DAO from the request received.
-     * This method is asynchronous.
+     * @param {Request} req Represents the request from client, including path parameters follower and followed
+     * representing the user that is following and the user that is followed
+     * @param {Response} res Represents the response to client, including the body formatted as JSON containing
+     * the new follows that was inserted in the database
      */
     private userFollowsUser = async (req: Request, res: Response) => {
         const follower = req.params.follower;
@@ -46,8 +56,10 @@ export default class FollowsController {
     }
     
     /**
-     * Supports a user unfollowing another user. Sends appropriate parameters to the follows DAO from the request received.
-     * This method is asynchronous.
+     * @param {Request} req Represents the request from the client, including the path parameters follower and followed
+     * representing the user that is unfollowing and the user that was followed and will not be unfollowed
+     * @param {Response} res Represents the response to client, including the status on whether deleting the follow
+     * was successful or not
      */
     private userUnfollowsUser = async (req: Request, res: Response) => {
         const follower = req.params.follower;
@@ -59,8 +71,11 @@ export default class FollowsController {
     }
 
     /**
-     * Supports a user retrieving a list of who they are following. Sends appropriate parameters to the follows DAO from the request received.
-     * This method is asynchronous.
+     * Retrieves all users that the provided userid follows
+     * @param {Request} req Represents request from client, including the path parameter follower
+     * representing the user that is following the list being retrieved
+     * @param {Response} res Represents the response to client, including the body formatted as JSON 
+     * arrays containing the user objects that are followed
      */
     private findWhoIamFollowing = async (req: Request, res: Response) => {
         const follower = req.params.follower;
@@ -69,8 +84,11 @@ export default class FollowsController {
     }
     
     /**
-     * Supports a user retrieving a list of who are following them. Sends appropriate parameters to the follows DAO from the request received.
-     * This method is asynchronous.
+     * Retrieves all users that follow the provided userid 
+     * @param {Request} req Represents request from client, including the path parameter followed
+     * representing the user that the list retrieved are following
+     * @param {Response} res Represents the response to client, including the body formatted as JSON 
+     * arrays containing the user objects that are following
      */
     private findWhoIsFollowingMe = async (req: Request, res: Response) => {
         const followed = req.params.followed;

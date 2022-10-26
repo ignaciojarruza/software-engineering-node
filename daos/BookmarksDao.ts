@@ -1,8 +1,12 @@
+/**
+ * @file Bookmarks DAO for handling data
+ */
 import BookmarksModel from "../mongoose/BookmarksModel";
 import BookmarksDaoI from "../interfaces/BookmarksDao";
 
 /**
- * DAO for Bookmarks functionality.
+ * @class DAO for Bookmarks functionality.
+ * @property {BookmarkDao} bookmarkDao Singleton DAO implementing bookmarks CRUD operations
  */
 export default class BookmarksDao implements BookmarksDaoI {
     private static bookmarksDao: BookmarksDao | null = null;

@@ -1,8 +1,12 @@
+/**
+ * @file FollowsDAO for data handling.
+ */
 import FollowsModel from "../mongoose/FollowsModel";
 import FollowsDaoI from "../interfaces/FollowsDao";
 
 /**
- * DAO for Follows functionality.
+ * @class FollowsDao for Follows functionality.
+ * @property {FollowsDao} followsDao Singleton DAO implementing bookmarks CRUD operations
  */
 export default class FollowsDao implements FollowsDaoI {
     private static followsDao: FollowsDao | null = null;
