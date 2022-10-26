@@ -30,7 +30,8 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4
  }
-mongoose.connect('mongodb://localhost:27017/fsd', options);
+//mongoose.connect('mongodb://localhost:27017/fsd', options);
+mongoose.connect('mongodb+srv://iarruza:Manchego1a@cluster0.fei84pe.mongodb.net/?retryWrites=true&w=majority')
 
 const userDao = new UserDao();
 const userController = new UserController(app, userDao);
