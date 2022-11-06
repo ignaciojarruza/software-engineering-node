@@ -22,6 +22,7 @@ export default class UserDao implements UserDaoI {
                     userMongooseModel?._id.toString()??'',
                     userMongooseModel?.username??'',
                     userMongooseModel?.password??'',
+                    userMongooseModel?.email??'',
                 );
             });
         return userModels;
@@ -37,6 +38,7 @@ export default class UserDao implements UserDaoI {
             userMongooseModel?._id.toString()??'',
             userMongooseModel?.username??'',
             userMongooseModel?.password??'',
+            userMongooseModel?.email??'',
         );
     }
 
@@ -51,6 +53,7 @@ export default class UserDao implements UserDaoI {
             userMongooseModel?._id.toString()??'',
             userMongooseModel?.username??'',
             userMongooseModel?.password??'',
+            userMongooseModel?.email??'',
         );
     }
 
