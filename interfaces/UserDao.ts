@@ -37,4 +37,12 @@ export default interface UserDao {
     * @return the deletion status
     */
    deleteUser(uid: string): Promise<any>;
+
+
+/**
+ * Handles data from the controller and deletes a record from the database for the given username.
+ * @param username the username of the user
+ * @return the deletion status
+ */
+   deleteUsersByUsername(username: string): Promise<any>;
 }

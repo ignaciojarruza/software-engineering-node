@@ -33,5 +33,12 @@ export default interface UserController {
      * This method is asynchronous.
      */
    updateUser(req: Request, res: Response): void;
+
+   /**
+    * Supports functionality for A3 deleteByUsername function.
+    * @param req Request made by the client 
+    * @param res Response to send the client
+    */
+   deleteUsersByUsername(req: Request, res: Response): void;
 }
 
