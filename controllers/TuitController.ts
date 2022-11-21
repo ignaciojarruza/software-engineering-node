@@ -3,6 +3,7 @@
  */
 import {Express, Request, Response} from "express";
 import TuitDaoI from "../interfaces/TuitDao";
+import Tuit from "../models/Tuit";
 
 /**
  * @class TuitController implements RESTful web service API for tuit resource.
@@ -33,8 +34,8 @@ export default class TuitController {
         TuitController.tuitDao = tuitDao;
         app.get('/api/tuits', TuitController.tuitController.findAllTuits);
         app.get('/api/tuits/:tid', TuitController.tuitController.findTuitById);
-        app.get('/api/users/:uid/tuits', TuitController.tuitController.findTuitsByAuthor);
-        app.post('/api/users/:uid/tuits', TuitController.tuitController.createTuit);
+        app.get('/api/users/:uid/tuits', TuitController.tuitController.findTuitsByUser);
+        app.post('/api/users/:uid/tuits', TuitController.tuitController.createTuitByUser);
         app.delete('/api/tuits/:tid', TuitController.tuitController.deleteTuit);
 
         return TuitController.tuitController;
@@ -96,4 +97,29 @@ export default class TuitController {
         TuitController.tuitDao
             .updateTuit(req.params.tid, req.body)
             .then(status => res.json(status));
+
+    private createTuitByUser = (req: any, res: Response) => {
+        let userId = req.params.uid === "me"
+                          && req.session['profile'] ?
+                          req.session['profile']._id :
+                          req.params.uid;
+        const tuit = new Tuit(userId, req.body.tuit, req.body.postedOn);
+              
+                TuitController.tuitDao
+                  .createTuit(tuit)
+                    .then((tuit) => res.json(tuit));
+              }
+              
+    private findTuitsByUser = (req: any, res: Response) => {
+        let userId = req.params.uid === "me"
+                          && req.session['profile'] ?
+                          req.session['profile']._id :
+                          req.params.uid;
+              
+                TuitController.tuitDao
+                  .findTuitsByAuthor(userId)
+                    .then((tuits) => res.json(tuits));
+              }
+              
 }
+  
