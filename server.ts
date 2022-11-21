@@ -14,12 +14,31 @@ import BookmarksDao from './daos/BookmarksDao';
 import LikeController from './controllers/LikeController';
 import MessageController from './controllers/MessageController';
 import MessageDao from './daos/MessageDao';
+import AuthenticationController from './controllers/auth-controller';
 
-
-const cors = require('cors')
+const cors = require('cors');
 const app = express();
-app.use(cors());
+const corsConfig = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+};
+app.use(cors(corsConfig));
 app.use(express.json());
+
+//Express session
+const session = require("express-session");
+let sess = {
+   secret: process.env.SECRET || 'SECRET',
+   cookie: {
+       secure: false
+   }
+}
+
+if (process.env.ENV === 'PRODUCTION') {
+   app.set('trust proxy', 1) // trust first proxy
+   sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess));
 
 const options = {
     useNewUrlParser: true,
@@ -45,12 +64,14 @@ const bookmarksController = BookmarksController.getInstance(app, bookmarksDao);
 const likeController = LikeController.getInstance(app);
 const messageDao = new MessageDao();
 const messageController = MessageController.getInstance(app, messageDao);
+AuthenticationController(app);
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!!!!'));
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!'));
+
 
 /**
  * Start a server listening at port 4000 locally

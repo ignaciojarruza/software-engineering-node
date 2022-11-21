@@ -9,6 +9,18 @@ import UserDaoI from "../interfaces/UserDao";
  * @class DAO for User functionality.
  */
 export default class UserDao implements UserDaoI {
+    private static userDao: UserDao | null = null;
+
+    /**
+     * Instantiates the Tuit DAO when called. Maintains the Singleton Pattern.
+     * @return tuitDAO
+     */
+    public static getInstance = (): UserDao => {
+        if (UserDao.userDao === null) {
+            UserDao.userDao = new UserDao();
+        }
+        return UserDao.userDao;
+    }
 
     /**
      * Handles calls from the controller. Retrieves a list of all users.
@@ -88,4 +100,10 @@ export default class UserDao implements UserDaoI {
                 password: user.pass
             }});
     }
+
+    async findUserByUsername(userName: string): Promise<any> {
+        return await UserModel.findOne({username: userName});
+    }
 }
+
+    
