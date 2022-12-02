@@ -19,7 +19,7 @@ import AuthenticationController from './controllers/auth-controller';
 const cors = require('cors');
 const app = express();
 const corsConfig = {
-    origin: 'http://localhost:3000',
+    origin: true,
     credentials: true,
 };
 app.use(cors(corsConfig));

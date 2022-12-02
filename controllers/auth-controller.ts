@@ -54,9 +54,6 @@ const AuthenticationController = (app: Express) => {
     const password = user.password;
     const existingUser = await userDao
       .findUserByUsername(username);
-    console.log(!existingUser);
-    console.log(existingUser.password);
-    console.log(password);
     if (!existingUser) {
       res.sendStatus(403);
       return;

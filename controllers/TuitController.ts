@@ -35,7 +35,7 @@ export default class TuitController {
         app.get('/api/tuits', TuitController.tuitController.findAllTuits);
         app.get('/api/tuits/:tid', TuitController.tuitController.findTuitById);
         app.get('/api/users/:uid/tuits', TuitController.tuitController.findTuitsByUser);
-        app.post('/api/users/:uid/tuits', TuitController.tuitController.createTuitByUser);
+        app.post('/api/users/:uid/tuits', TuitController.tuitController.createTuit);
         app.delete('/api/tuits/:tid', TuitController.tuitController.deleteTuit);
 
         return TuitController.tuitController;
@@ -75,10 +75,17 @@ export default class TuitController {
      * Supports a user creating a tuit. Sends appropriate parameters to the tuit DAO from the request received.
      * This method is asyncrhonous.
      */
-    private createTuit = (req: Request, res: Response) =>
+    private createTuit = (req: any, res: Response) => {
+        let userId = req.params.uid === "me"
+                          && req.session['profile'] ?
+                          req.session['profile']._id :
+                          req.params.uid;
+        //const tuit = new Tuit(userId, req.body.tuit, req.body.postedOn);
         TuitController.tuitDao
             .createTuit(req.body)
             .then(actualTuit => res.json(actualTuit));
+    }
+        
 
      /**
      * Supports a user deleting a tuit. Sends appropriate parameters to the tuit DAO from the request received.
@@ -98,7 +105,7 @@ export default class TuitController {
             .updateTuit(req.params.tid, req.body)
             .then(status => res.json(status));
 
-    private createTuitByUser = (req: any, res: Response) => {
+    /* private createTuitByUser = (req: any, res: Response) => {
         let userId = req.params.uid === "me"
                           && req.session['profile'] ?
                           req.session['profile']._id :
@@ -108,14 +115,13 @@ export default class TuitController {
                 TuitController.tuitDao
                   .createTuit(tuit)
                     .then((tuit) => res.json(tuit));
-              }
+              } */
               
     private findTuitsByUser = (req: any, res: Response) => {
         let userId = req.params.uid === "me"
                           && req.session['profile'] ?
                           req.session['profile']._id :
                           req.params.uid;
-              
                 TuitController.tuitDao
                   .findTuitsByAuthor(userId)
                     .then((tuits) => res.json(tuits));
