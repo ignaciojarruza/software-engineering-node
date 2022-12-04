@@ -61,7 +61,7 @@ const followsDao = new FollowsDao();
 const followsController = FollowsController.getInstance(app, followsDao);
 const bookmarksDao = new BookmarksDao();
 const bookmarksController = BookmarksController.getInstance(app, bookmarksDao);
-const likeController = LikeController.getInstance(app);
+const likeController = LikeController.getInstance(app, tuitDao);
 const messageDao = new MessageDao();
 const messageController = MessageController.getInstance(app, messageDao);
 AuthenticationController(app);
