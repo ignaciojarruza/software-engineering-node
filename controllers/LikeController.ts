@@ -3,7 +3,9 @@
  */
  import {Express, Request, Response} from "express";
  import LikeDao from "../daos/LikeDao";
+import TuitDao from "../daos/TuitDao";
  import LikeControllerI from "../interfaces/LikeControllerI";
+import TuitController from "./TuitController";
  
  /**
   * @class LikeController Implements RESTful Web service API for likes resource.
@@ -25,20 +27,24 @@
  export default class LikeController implements LikeControllerI {
      private static likeDao: LikeDao = LikeDao.getInstance();
      private static likeController: LikeController | null = null;
+     private static tuitDao: TuitDao;
      /**
       * Creates singleton controller instance
       * @param {Express} app Express instance to declare the RESTful Web service
       * API
       * @return TuitController
       */
-     public static getInstance = (app: Express): LikeController => {
+     public static getInstance = (app: Express, tuitDao: TuitDao): LikeController => {
          if(LikeController.likeController === null) {
              LikeController.likeController = new LikeController();
              app.get("/api/users/:uid/likes", LikeController.likeController.findAllTuitsLikedByUser);
              app.get("/api/tuits/:tid/likes", LikeController.likeController.findAllUsersThatLikedTuit);
              app.post("/api/users/:uid/likes/:tid", LikeController.likeController.userLikesTuit);
              app.delete("/api/users/:uid/unlikes/:tid", LikeController.likeController.userUnlikesTuit);
+             app.put("/api/users/:uid/likes/:tid", 
+             LikeController.likeController.userTogglesTuitLikes);
          }
+         this.tuitDao = tuitDao;
          return LikeController.likeController;
      }
  
@@ -88,4 +94,33 @@
      userUnlikesTuit = (req: Request, res: Response) =>
          LikeController.likeDao.userUnlikesTuit(req.params.uid, req.params.tid)
              .then(status => res.send(status));
+            
+
+             userTogglesTuitLikes = async (req: any, res: Response) => {
+                const uid = req.params.uid;
+                const tid = req.params.tid;
+                const profile = req.session['profile'];
+                const userId = uid === "me" && profile ?
+                      profile._id : uid;
+                try {
+                  const userAlreadyLikedTuit = await LikeController.likeDao
+                      .findAllUsersThatLikedTuit(tid); //this is the wrong method here
+                  const howManyLikedTuit = await LikeController.likeDao
+                      .countHowManyLikedTuit(tid);
+                  let tuit = await LikeController.tuitDao.findTuitById(tid);
+                  if (userAlreadyLikedTuit) {
+                    await LikeController.likeDao.userUnlikesTuit(userId, tid);
+                    tuit.stats.likes = howManyLikedTuit - 1;
+                  } else {
+                    await LikeController.likeDao.userLikesTuit(userId, tid);
+                    tuit.stats.likes = howManyLikedTuit + 1;
+                  };
+                  await LikeController.tuitDao.updateLikes(tid, tuit.stats);
+                  res.sendStatus(200);
+                } catch (e) {
+                  res.sendStatus(404);
+                }
+              }
+              
+              
  };
